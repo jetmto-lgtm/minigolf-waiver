@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Be My Valentine 💖</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(160deg, #ff758c, #ff7eb3);
+    padding: 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 24px;
+    padding: 26px 22px 30px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+  }
+
+  .name {
+    color: #ff4d6d;
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    margin: 0 0 14px;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .fade-out {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 0 0 22px;
+    color: #444;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  button {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 10px;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+
+  #yesBtn {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #yesBtn:active {
+    transform: scale(0.95);
+  }
+
+  #noBtn {
+    background: #f1f1f1;
+    color: #333;
+  }
+
+  #jokeBtn {
+    display: none;
+    background: #ffd6e0;
+    color: #ff4d6d;
+  }
+
+  /* Popup overlay */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    z-index: 10;
+  }
+
+  .popup {
+    width: 100%;
+    max-width: 380px;
+    background: white;
+    border-radius: 22px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    animation: pop 0.25s ease-out;
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .newt-img {
+    width: 100%;
+    border-radius: 14px;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .caption {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    color: #ff4d6d;
+    font-weight: 600;
+  }
+
+  .close-btn {
+    margin-top: 14px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <!-- PERSONALIZE NAME HERE -->
+  <h1>Hey <span class="name">Violet</span> 💕</h1>
+  <p>I have a very important question for you…</p>
+
+  <h1 id="mainText">Will you be my Valentine?</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙂</button>
+    <button id="jokeBtn">I was joking 😅</button>
+  </div>
+</div>
+
+<!-- POPUP WITH NEWT IMAGE -->
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <!-- INSERT YOUR NEWT IMAGE FILE HERE -->
+    <img src="newtine.jpg" alt="Cute newt" class="newt-img">
+
+    <!-- CUSTOM CAPTION HERE -->
+    <div class="caption">
+      You just unlocked the legendary Valentine Newt 🦎💖
+    </div>
+
+    <button class="close-btn" id="closeBtn">Aww 🥺</button>
+  </div>
+</div>
+
+<script>
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const jokeBtn = document.getElementById("jokeBtn");
+  const mainText = document.getElementById("mainText");
+  const overlay = document.getElementById("overlay");
+  const closeBtn = document.getElementById("closeBtn");
+
+  function showNewt() {
+    overlay.style.display = "flex";
+  }
+
+  function changeText(newText) {
+    mainText.classList.add("fade-out");
+    setTimeout(() => {
+      mainText.textContent = newText;
+      mainText.classList.remove("fade-out");
+      mainText.classList.add("fade-in");
+      setTimeout(() => mainText.classList.remove("fade-in"), 200);
+    }, 200);
+  }
+
+  yesBtn.addEventListener("click", showNewt);
+
+  noBtn.addEventListener("click", () => {
+    changeText("don’t play with me 😤");
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    jokeBtn.style.display = "inline-block";
+  });
+
+  jokeBtn.addEventListener("click", () => {
+    changeText("I knew you’d say yes 💖");
+    jokeBtn.disabled = true;
+
+    setTimeout(showNewt, 2000);
+  });
+
+  closeBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.style.display = "none";
+  });
+</script>
+</body>
+</html>
